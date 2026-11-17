@@ -1,0 +1,1 @@
+{"name": "NameForge Business Name Generator", "short_name": "NameForge", "start_url": "/", "display": "standalone", "background_color": "#fbfaf7", "theme_color": "#0f7a55", "icons": [{"src": "/assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png"}, {"src": "/assets/icon-512.png", "sizes": "512x512", "type": "image/png"}]}
