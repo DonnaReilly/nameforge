@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nameforgeapp.com/sitemap.xml
+Sitemap: https://nameforge.live/sitemap.xml

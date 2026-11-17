@@ -10,8 +10,8 @@ import html, json, os, re, shutil, datetime
 # ======================= SETTINGS (edit these) =======================
 SITE_NAME = "NameForge"                 # SITE_NAME placeholder: proposed name; change and rebuild
 TAGLINE = "Free business name generator"
-SITE_URL = "https://nameforgeapp.com"      # final domain, no trailing slash (must be served from the domain root)
-CONTACT_EMAIL = "hello@nameforgeapp.com"   # CONTACT_EMAIL placeholder: set up this mailbox (or change it)
+SITE_URL = "https://nameforge.live"        # final domain, no trailing slash (must be served from the domain root)
+CONTACT_EMAIL = "hello@nameforge.live"     # CONTACT_EMAIL placeholder: set up this mailbox (or change it)
 OPERATOR = "Donna Reilly Websites"      # who runs the site (shown on About/Privacy). Change if needed.
 OPERATOR_LOCATION = "Ireland"           # add a postal address here if you have one you are happy to publish
 ADSENSE_PUBLISHER_ID = ""               # e.g. "pub-1234567890123456" (leave empty until AdSense gives you one)
@@ -166,7 +166,7 @@ def build():
     if os.path.isdir(OUT):
         for item in os.listdir(OUT):
             p = os.path.join(OUT, item)
-            if item in ("assets",) or item in ("favicon.ico", "site.webmanifest"):
+            if item in ("assets", "CNAME", "favicon.ico", "site.webmanifest"):
                 continue
             shutil.rmtree(p) if os.path.isdir(p) else os.remove(p)
     sitemap = []

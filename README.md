@@ -9,9 +9,9 @@ GitHub Pages is wired up in `.github/workflows/pages.yml`. A push to `main` (or 
 1. On GitHub, open **Settings → Pages**.
 2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
 3. Push to `main`, or run **Deploy GitHub Pages** from the **Actions** tab.
-4. When the run succeeds, the site URL is on the workflow summary and under **Settings → Pages**. For this repository that is `https://donnareilly.github.io/nameforge/`.
+4. When the run succeeds, the site URL is on the workflow summary and under **Settings → Pages**. The custom domain is `https://nameforge.live` (`public/CNAME`).
 
-The built pages use root-absolute links (`/assets/...`, `/guides/...`) and are meant to be served from the domain root (`SITE_URL` in `src/build.py`). A GitHub Pages project site is served under `/nameforge/`, so add a custom domain under **Settings → Pages** (a custom domain is served from the root) before relying on those links. No rebuild is required to publish the files already in `public/`.
+The built pages use root-absolute links (`/assets/...`, `/guides/...`) and are meant to be served from the domain root (`SITE_URL` in `src/build.py`, currently `https://nameforge.live`). `public/CNAME` tells GitHub Pages to serve the site at that domain, from the root, so those links resolve. Without the custom domain, the project URL `https://donnareilly.github.io/nameforge/` would 404 them. Rebuild with `python3 src/build.py` after changing the domain or contact email in `src/build.py`.
 
 A fast, static (plain HTML/CSS/JS) business name generator with 8 original naming guides and all the
 pages Google AdSense reviewers look for. There's no backend, no database and no paid APIs, so it runs on
