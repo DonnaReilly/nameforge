@@ -14,7 +14,7 @@ SITE_URL = "https://nameforge.live"        # final domain, no trailing slash (mu
 CONTACT_EMAIL = "hello@nameforge.live"     # CONTACT_EMAIL placeholder: set up this mailbox (or change it)
 OPERATOR = "Donna Reilly Websites"      # who runs the site (shown on About/Privacy). Change if needed.
 OPERATOR_LOCATION = "Ireland"           # add a postal address here if you have one you are happy to publish
-ADSENSE_PUBLISHER_ID = ""               # e.g. "pub-1234567890123456" (leave empty until AdSense gives you one)
+ADSENSE_PUBLISHER_ID = "ca-pub-2314516397963402"  # "pub-..." or "ca-pub-..."; head script uses ca-pub-, ads.txt uses pub-
 AD_SLOTS = {                            # AdSense "display ad unit" slot IDs, e.g. "1234567890". Empty = placeholder only
     "mid": "", "in-article": "", "sidebar": "", "footer": "",
 }
@@ -34,12 +34,26 @@ def sub(text):
             .replace("{{YEAR}}", str(YEAR)))
 
 
+def adsense_client():
+    """Client id for the head script. Accepts pub-... or ca-pub-... so the ca- prefix is never doubled."""
+    pid = ADSENSE_PUBLISHER_ID
+    if not pid:
+        return ""
+    return pid if pid.startswith("ca-") else f"ca-{pid}"
+
+
+def adsense_pub():
+    """Publisher id for ads.txt (pub-..., never ca-pub-...)."""
+    pid = ADSENSE_PUBLISHER_ID
+    return pid[3:] if pid.startswith("ca-") else pid
+
+
 def ad(slot, fmt="auto"):
     """One ad placement. Stays an empty, invisible div until a publisher ID + slot ID are set."""
-    pid, sid = ADSENSE_PUBLISHER_ID, AD_SLOTS.get(slot, "")
-    if pid and sid:
+    sid = AD_SLOTS.get(slot, "")
+    if ADSENSE_PUBLISHER_ID and sid:
         return (f'<div class="ad-slot" data-slot="{slot}"><ins class="adsbygoogle" style="display:block" '
-                f'data-ad-client="ca-{pid}" data-ad-slot="{sid}" data-ad-format="{fmt}" data-full-width-responsive="true"></ins>'
+                f'data-ad-client="{adsense_client()}" data-ad-slot="{sid}" data-ad-format="{fmt}" data-full-width-responsive="true"></ins>'
                 f'<script>(adsbygoogle=window.adsbygoogle||[]).push({{}});</script></div>')
     # NOTE: no whitespace inside the div so it collapses (CSS :empty) until real ad code is pasted in.
     return (f'<div class="ad-slot" data-slot="{slot}"><!-- AD SLOT "{slot}": paste an AdSense ad unit here, e.g. '
@@ -49,8 +63,9 @@ def ad(slot, fmt="auto"):
 
 
 def adsense_head():
-    if ADSENSE_PUBLISHER_ID:
-        return (f'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-{ADSENSE_PUBLISHER_ID}" '
+    client = adsense_client()
+    if client:
+        return (f'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={client}" '
                 f'crossorigin="anonymous"></script>')
     return ('<!-- ADSENSE: when approved/applying, paste the AdSense code here: <script async '
             'src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-PUBLISHER_ID" crossorigin="anonymous"></script> '
@@ -289,7 +304,7 @@ def build():
     sm = "".join(f"<url><loc>{SITE_URL}{p}</loc><lastmod>{UPDATED}</lastmod><priority>{pr}</priority></url>\n" for p, pr in sitemap)
     open(os.path.join(OUT, "sitemap.xml"), "w").write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sm}</urlset>\n')
     open(os.path.join(OUT, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n")
-    pid = ADSENSE_PUBLISHER_ID or "pub-PUBLISHER_ID"
+    pid = adsense_pub() or "pub-PUBLISHER_ID"
     adstxt = f"google.com, {pid}, DIRECT, f08c47fec0942fa0\n"
     if not ADSENSE_PUBLISHER_ID:
         adstxt = ("# ads.txt TEMPLATE: replace pub-PUBLISHER_ID with your AdSense publisher ID (AdSense > Account > Settings > Account information),\n"
