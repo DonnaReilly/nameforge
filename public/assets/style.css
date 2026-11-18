@@ -74,7 +74,7 @@ details.check[open] summary{border-color:var(--brand)}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;transition:transform .25s;z-index:20}
 .toast.show{transform:translateX(-50%) translateY(0)}
 /* content */
-.content{padding:8px 0 30px}
+.content{padding-top:8px;padding-bottom:30px}
 .content p,.content li{max-width:72ch}
 .content ul,.content ol{padding-left:1.3em}
 .callout{background:var(--brand-l);border-left:4px solid var(--brand);padding:12px 16px;border-radius:0 10px 10px 0;margin:1.2em 0}
