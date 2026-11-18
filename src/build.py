@@ -88,6 +88,7 @@ def page(path, title, desc, body, schema=None, og_type="website", current="/", s
     fl = lambda items: "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in items)
     guides_links = "".join(f'<li><a href="/guides/{g["slug"]}/">{esc(g["short"])}</a></li>' for g in GUIDES[:5])
     schemas = "".join(f'<script type="application/ld+json">{json.dumps(s, ensure_ascii=False)}</script>' for s in (schema or []))
+    gsc = '<meta name="google-site-verification" content="9gQzu7OlF4xh4mfTBfUzIZbtSpeybEQYc6EdpcKnAG0" />\n' if path == "/" else ""
     main = body if not sidebar else f'<div class="wrap layout"><div>{body}</div><aside class="sidebar" aria-label="Advertising">{sidebar}</aside></div>'
     return f"""<!doctype html>
 <html lang="en-IE">
@@ -108,7 +109,7 @@ def page(path, title, desc, body, schema=None, og_type="website", current="/", s
 <meta property="og:locale" content="en_IE">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0f7a55">
-<link rel="icon" href="/favicon.ico" sizes="32x32">
+{gsc}<link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
